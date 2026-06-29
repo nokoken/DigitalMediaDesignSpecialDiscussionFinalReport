@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>展示会ブースマップ</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="page-header">
+    <h1>展示会ブースマップ</h1>
+    <p>各ブースにマウスを合わせると、出展者情報が表示されます。</p>
+  </header>
+
+  <main>
+    <div id="map" aria-label="展示会会場マップ"></div>
+
+    <div id="selected-booth" class="selected-booth">
+      ブースをクリックすると詳細が表示されます。
+    </div>
+  </main>
+
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
