@@ -1,6 +1,6 @@
 "use strict";
 
-const IMAGE_URL = "./img/sample.gif";
+const IMAGE_URL = "./img/Map.png";
 
 /*
  * trueにすると、ブースの当たり判定を赤枠で表示します。
