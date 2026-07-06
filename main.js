@@ -151,10 +151,16 @@ function createTooltipHtml(booth) {
         </p>
 
         <img
-          class="tooltip-image"
           src="${escapeHtml(exhibitImagePath)}"
           alt="${escapeHtml(booth.name)}の展示画像"
-          onerror="this.style.display='none';"
+          style="
+            display: block;
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin: 8px auto;
+            border-radius: 6px;
+          "
         >
 
         <p>

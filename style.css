@@ -57,16 +57,36 @@ main {
 }
 
 .leaflet-tooltip.booth-tooltip {
-  max-width: 260px;
-  white-space: normal;
+  width: 280px !important;
+  max-width: 280px !important;
+  white-space: normal !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .tooltip-content {
-  width: 240px;
+  width: 280px !important;
+}
+
+.tooltip-body {
+  padding: 10px 12px;
 }
 
 .tooltip-body p {
   line-height: 1.5;
+}
+
+.tooltip-image {
+  display: block !important;
+  width: 10px !important;
+  max-width: 10px !important;
+  height: 10px !important;
+  max-height: 10px !important;
+  object-fit: contain !important;
+  margin: 8px auto !important;
+  border-radius: 6px;
 }
 
 .tooltip-header {
@@ -75,10 +95,6 @@ main {
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
-}
-
-.tooltip-body {
-  padding: 10px 12px;
 }
 
 .tooltip-category {
