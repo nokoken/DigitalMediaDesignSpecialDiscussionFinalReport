@@ -6,71 +6,13 @@ const IMAGE_URL = "./img/Map.png";
  * trueにすると、ブースの当たり判定を赤枠で表示します。
  * 位置調整が終わったらfalseにしてください。
  */
-const DEBUG_MODE = false;
-
-/*
- * 画像左上基準のブース座標です。
- *
- * x1, y1：左上
- * x2, y2：右下
- */
-const booths = [
-  {
-    id: "54",
-    name: "株式会社インテック",
-    category: "べんり",
-    description: "業務を便利にするサービスをご紹介します。",
-    x1: 359,
-    y1: -449,
-    x2: 403,
-    y2: -488
-  },
-  {
-    id: "55",
-    name: "株式会社コスモテック",
-    category: "べんり",
-    description: "各種業務支援サービスを展示しています。",
-    x1: 404,
-    y1: 149,
-    x2: 449,
-    y2: 188
-  },
-  {
-    id: "56",
-    name: "株式会社コミュニケーションサービス",
-    category: "べんり",
-    description: "コミュニケーション関連製品をご案内します。",
-    x1: 450,
-    y1: 149,
-    x2: 495,
-    y2: 188
-  },
-  {
-    id: "57",
-    name: "有限会社展示企画",
-    category: "べんり",
-    description: "展示会向けの企画サービスです。",
-    x1: 496,
-    y1: 149,
-    x2: 555,
-    y2: 188
-  },
-  {
-    id: "58",
-    name: "株式会社展示技研",
-    category: "べんり",
-    description: "技術を活用した便利な商品をご紹介します。",
-    x1: 556,
-    y1: 149,
-    x2: 615,
-    y2: 188
-  }
-];
-
+const DEBUG_MODE = true;
 /*
  * 画像を先に読み込み、実際の画像サイズを取得します。
  */
 const image = new Image();
+
+let booths = [];
 
 image.onload = function () {
   initializeMap(image.naturalWidth, image.naturalHeight);
@@ -115,9 +57,6 @@ function initializeMap(imageWidth, imageHeight) {
 
   map.fitBounds(imageBounds);
 
-  /*
-   * クリック位置を表示する共通関数
-   */
   function showClickedCoordinates(event) {
     const x = Math.round(event.latlng.lng);
     const y = Math.round(imageHeight - event.latlng.lat);
@@ -134,11 +73,14 @@ function initializeMap(imageWidth, imageHeight) {
       .openOn(map);
   }
 
-  /*
-   * 地図部分をクリック
-   */
   map.on("click", showClickedCoordinates);
 
+  includeMuseumData(function () {
+    drawBooths(map, imageHeight, createBounds, showClickedCoordinates);
+  });
+}
+
+function drawBooths(map, imageHeight, createBounds, showClickedCoordinates) {
   booths.forEach(function (booth) {
     const bounds = createBounds(
       booth.x1,
@@ -165,9 +107,28 @@ function initializeMap(imageWidth, imageHeight) {
       opacity: 1
     });
 
-    /*
-     * ブース部分をクリック
-     */
+    rectangle.on("mouseover", function () {
+      rectangle.setStyle({
+        color: "#e83e8c",
+        weight: 3,
+        opacity: 1,
+        fillColor: "#ffff00",
+        fillOpacity: 0.35
+      });
+
+      rectangle.bringToFront();
+    });
+
+    rectangle.on("mouseout", function () {
+      rectangle.setStyle({
+        color: DEBUG_MODE ? "#ff0000" : "#e83e8c",
+        weight: DEBUG_MODE ? 2 : 0,
+        opacity: DEBUG_MODE ? 1 : 0,
+        fillColor: "#ffff00",
+        fillOpacity: DEBUG_MODE ? 0.15 : 0
+      });
+    });
+
     rectangle.on("click", function (event) {
       showClickedCoordinates(event);
       showBoothDetail(booth);
@@ -226,4 +187,89 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function includeMuseumData(callback) {
+  const req = new XMLHttpRequest();
+
+  req.open("get", "MuseumData.csv", true);
+  req.send(null);
+
+  req.onload = function () {
+    convertCSVtoArray(req.responseText);
+    setCoordinate();
+
+    callback();
+  };
+
+  req.onerror = function () {
+    console.error("MuseumData.csvを読み込めませんでした。");
+  };
+}
+
+function convertCSVtoArray(str) {
+  const lines = str.trim().split("\n");
+
+  booths = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const columns = lines[i].split(",");
+
+    booths.push({
+      id: columns[0],
+      name: columns[1],
+      imgname: columns[2],
+      description: columns[3],
+      category: "展示"
+    });
+  }
+}
+
+/*
+ * 画像左上基準のブース座標です。
+ *
+ * x1, y1：左上
+ * x2, y2：右下
+ */
+
+function setCoordinate() {
+  booths[0].x1 = 359;
+  booths[0].y1 = 449;
+  booths[0].x2 = 403;
+  booths[0].y2 = 488;
+
+  booths[1].x1 = 404;
+  booths[1].y1 = 149;
+  booths[1].x2 = 449;
+  booths[1].y2 = 188;
+
+  booths[2].x1 = 450;
+  booths[2].y1 = 149;
+  booths[2].x2 = 495;
+  booths[2].y2 = 188;
+
+  booths[3].x1 = 496;
+  booths[3].y1 = 149;
+  booths[3].x2 = 555;
+  booths[3].y2 = 188;
+
+  booths[4].x1 = 556;
+  booths[4].y1 = 149;
+  booths[4].x2 = 615;
+  booths[4].y2 = 188;
+
+  booths[5].x1 = 656;
+  booths[5].y1 = 149;
+  booths[5].x2 = 715;
+  booths[5].y2 = 188;
+
+  booths[6].x1 = 756;
+  booths[6].y1 = 149;
+  booths[6].x2 = 815;
+  booths[6].y2 = 188;
+
+  booths[7].x1 = 856;
+  booths[7].y1 = 149;
+  booths[7].x2 = 915;
+  booths[7].y2 = 188;
 }
