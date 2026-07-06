@@ -6,7 +6,7 @@ const IMAGE_URL = "./img/Map.png";
  * trueにすると、ブースの当たり判定を赤枠で表示します。
  * 位置調整が終わったらfalseにしてください。
  */
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 /*
  * 画像を先に読み込み、実際の画像サイズを取得します。
  */
@@ -99,14 +99,22 @@ function drawBooths(map, imageHeight, createBounds, showClickedCoordinates) {
       interactive: true,
       bubblingMouseEvents: true
     }).addTo(map);
-
-    rectangle.bindTooltip(createTooltipHtml(booth), {
-      className: "booth-tooltip",
-      direction: "top",
-      sticky: true,
-      opacity: 1
-    });
-
+    if (booth.id <= 2) {
+      rectangle.bindTooltip(createTooltipHtml(booth), {
+        className: "booth-tooltip",
+        direction: "bottom",
+        sticky: true,
+        opacity: 1
+      });      
+    }
+    else {
+      rectangle.bindTooltip(createTooltipHtml(booth), {
+        className: "booth-tooltip",
+        direction: "top",
+        sticky: true,
+        opacity: 1
+      });
+    }
     rectangle.on("mouseover", function () {
       rectangle.setStyle({
         color: "#e83e8c",
@@ -164,7 +172,7 @@ function createTooltipHtml(booth) {
         >
 
         <p>
-          ${escapeHtml(booth.description)}
+          ${escapeHtml(booth.description).replaceAll("\\", "<br/>")}
         </p>
       </div>
     </div>
