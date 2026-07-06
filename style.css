@@ -56,19 +56,17 @@ main {
   cursor: pointer;
 }
 
-/* 吹き出し全体 */
 .leaflet-tooltip.booth-tooltip {
-  padding: 0;
-  overflow: hidden;
-  border: none;
-  border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 5px 18px rgb(0 0 0 / 25%);
+  max-width: 260px;
+  white-space: normal;
 }
 
-/* 吹き出し内部 */
 .tooltip-content {
-  min-width: 180px;
+  width: 240px;
+}
+
+.tooltip-body p {
+  line-height: 1.5;
 }
 
 .tooltip-header {
@@ -81,11 +79,6 @@ main {
 
 .tooltip-body {
   padding: 10px 12px;
-}
-
-.tooltip-body p {
-  margin: 4px 0;
-  font-size: 13px;
 }
 
 .tooltip-category {
@@ -109,6 +102,22 @@ main {
 .selected-booth p {
   margin: 5px 0;
   line-height: 1.6;
+}
+
+.tooltip-image {
+  display: block;
+  width: 20%;
+  height: auto;
+  margin: 8px 0;
+  border-radius: 6px;
+}
+
+.exhibit-image {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+  margin: 12px 0;
+  border-radius: 8px;
 }
 
 @media (max-width: 600px) {

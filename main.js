@@ -137,6 +137,8 @@ function drawBooths(map, imageHeight, createBounds, showClickedCoordinates) {
 }
 
 function createTooltipHtml(booth) {
+  const exhibitImagePath = `./img/Exhibits/${booth.imgname}`;
+
   return `
     <div class="tooltip-content">
       <div class="tooltip-header">
@@ -148,9 +150,12 @@ function createTooltipHtml(booth) {
           <strong>${escapeHtml(booth.name)}</strong>
         </p>
 
-        <p class="tooltip-category">
-          分類：${escapeHtml(booth.category)}
-        </p>
+        <img
+          class="tooltip-image"
+          src="${escapeHtml(exhibitImagePath)}"
+          alt="${escapeHtml(booth.name)}の展示画像"
+          onerror="this.style.display='none';"
+        >
 
         <p>
           ${escapeHtml(booth.description)}
@@ -163,6 +168,8 @@ function createTooltipHtml(booth) {
 function showBoothDetail(booth) {
   const detailElement = document.getElementById("selected-booth");
 
+  const exhibitImagePath = `./img/Exhibits/${booth.imgname}`;
+
   detailElement.innerHTML = `
     <h2>
       ブース ${escapeHtml(booth.id)}
@@ -170,9 +177,15 @@ function showBoothDetail(booth) {
     </h2>
 
     <p>
-      <strong>分類：</strong>
-      ${escapeHtml(booth.category)}
+      <strong>展示の様子：</strong>
     </p>
+
+    <img
+      class="exhibit-image"
+      src="${escapeHtml(exhibitImagePath)}"
+      alt="${escapeHtml(booth.name)}の展示画像"
+      onerror="this.style.display='none';"
+    >
 
     <p>
       ${escapeHtml(booth.description)}
@@ -208,7 +221,7 @@ function includeMuseumData(callback) {
 }
 
 function convertCSVtoArray(str) {
-  const lines = str.trim().split("\n");
+  const lines = str.trim().split(/\r?\n/);
 
   booths = [];
 
@@ -216,11 +229,11 @@ function convertCSVtoArray(str) {
     const columns = lines[i].split(",");
 
     booths.push({
-      id: columns[0],
-      name: columns[1],
-      imgname: columns[2],
-      description: columns[3],
-      category: "展示"
+      id: columns[0]?.trim(),
+      name: columns[1]?.trim(),
+      imgname: columns[2]?.trim(),
+      description: columns[3]?.trim(),
+      category: "展示品"
     });
   }
 }
@@ -233,43 +246,43 @@ function convertCSVtoArray(str) {
  */
 
 function setCoordinate() {
-  booths[0].x1 = 359;
-  booths[0].y1 = 449;
-  booths[0].x2 = 403;
-  booths[0].y2 = 488;
+  booths[0].x1 = 735;
+  booths[0].y1 = 65;
+  booths[0].x2 = 773;
+  booths[0].y2 = 91;
 
-  booths[1].x1 = 404;
-  booths[1].y1 = 149;
-  booths[1].x2 = 449;
-  booths[1].y2 = 188;
+  booths[1].x1 = 621;
+  booths[1].y1 = 239;
+  booths[1].x2 = 676;
+  booths[1].y2 = 264;
 
-  booths[2].x1 = 450;
-  booths[2].y1 = 149;
-  booths[2].x2 = 495;
-  booths[2].y2 = 188;
+  booths[2].x1 = 178;
+  booths[2].y1 = 561;
+  booths[2].x2 = 226;
+  booths[2].y2 = 626;
 
-  booths[3].x1 = 496;
-  booths[3].y1 = 149;
-  booths[3].x2 = 555;
-  booths[3].y2 = 188;
+  booths[3].x1 = 181;
+  booths[3].y1 = 628;
+  booths[3].x2 = 226;
+  booths[3].y2 = 657;
 
-  booths[4].x1 = 556;
-  booths[4].y1 = 149;
-  booths[4].x2 = 615;
-  booths[4].y2 = 188;
+  booths[4].x1 = 59;
+  booths[4].y1 = 740;
+  booths[4].x2 = 109;
+  booths[4].y2 = 787;
 
-  booths[5].x1 = 656;
-  booths[5].y1 = 149;
-  booths[5].x2 = 715;
-  booths[5].y2 = 188;
+  booths[5].x1 = 566;
+  booths[5].y1 = 740;
+  booths[5].x2 = 612;
+  booths[5].y2 = 766;
 
-  booths[6].x1 = 756;
-  booths[6].y1 = 149;
-  booths[6].x2 = 815;
-  booths[6].y2 = 188;
+  booths[6].x1 = 602;
+  booths[6].y1 = 596;
+  booths[6].x2 = 650;
+  booths[6].y2 = 646;
 
-  booths[7].x1 = 856;
-  booths[7].y1 = 149;
-  booths[7].x2 = 915;
-  booths[7].y2 = 188;
+  booths[7].x1 = 728;
+  booths[7].y1 = 1154;
+  booths[7].x2 = 779;
+  booths[7].y2 = 1204;
 }
